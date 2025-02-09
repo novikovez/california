@@ -4,6 +4,10 @@ import org.california.dto.competitor.CompetitorRequestDto;
 import org.california.entity.competitor.Competitor;
 import org.california.entity.competitor.CompetitorMapper;
 import org.california.exception.analysis.AnalysisDaoException;
+import org.california.exception.analysis.CompetitorDaoException;
+import org.postgresql.util.PSQLException;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -22,20 +26,25 @@ public class CompetitorDaoImpl implements CompetitorDao {
 
     @Override
     public Competitor create(CompetitorRequestDto competitorRequestDto) {
-        String query = "INSERT INTO competitors (analysis_id, site, url, price, relevant, position) VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
-        Long resultId = jdbcTemplate.queryForObject(
-                query, Long.class,
-                competitorRequestDto.getAnalysisId(),
-                competitorRequestDto.getSite(),
-                competitorRequestDto.getUrl(),
-                competitorRequestDto.getPrice(),
-                competitorRequestDto.isRelevant(),
-                competitorRequestDto.getPosition()
-        );
-        if(resultId == null) {
-            throw new AnalysisDaoException("Cannot create analysis");
+        try {
+            String query = "INSERT INTO competitors (analysis_id, site, url, price, relevant, position) VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
+            Long resultId = jdbcTemplate.queryForObject(
+                    query, Long.class,
+                    competitorRequestDto.getAnalysisId(),
+                    competitorRequestDto.getSite(),
+                    competitorRequestDto.getUrl(),
+                    competitorRequestDto.getPrice(),
+                    competitorRequestDto.isRelevant(),
+                    competitorRequestDto.getPosition()
+            );
+            if(resultId == null) {
+                throw new CompetitorDaoException("Не удалось записать конкурента");
+            }
+            return this.show(resultId).orElse(null);
+        } catch (DataIntegrityViolationException exception) {
+            throw new CompetitorDaoException("Не удалось записать конкурента! Возможно ID анализа указан неверно!");
         }
-        return this.show(resultId).orElse(null);
+
     }
 
     @Override

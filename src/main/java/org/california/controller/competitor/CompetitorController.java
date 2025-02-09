@@ -2,6 +2,7 @@ package org.california.controller.competitor;
 
 import org.california.dto.competitor.CompetitorRequestDto;
 import org.california.entity.competitor.Competitor;
+import org.california.exception.analysis.CompetitorDaoException;
 import org.california.response.competitor.analysis.*;
 import org.california.service.competitor.CompetitorService;
 import org.springframework.http.HttpStatus;
@@ -21,11 +22,16 @@ public class CompetitorController {
 
     @PostMapping
     public ResponseEntity<CompetitorCreateResponse> store(@RequestBody CompetitorRequestDto competitorRequestDto) {
-        Competitor result = this.competitorService.create(competitorRequestDto);
-        if(result.getId() != null) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(CompetitorCreateResponse.of(true, result));
+        try {
+            Competitor result = this.competitorService.create(competitorRequestDto);
+            if(result.getId() != null) {
+                return ResponseEntity.status(HttpStatus.CREATED).body(CompetitorCreateResponse.of(true, result));
+            }
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(CompetitorCreateResponse.of(false, null));
+        } catch (CompetitorDaoException exception) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(CompetitorCreateResponse.of(false, null));
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(CompetitorCreateResponse.of(false, null));
+
     }
 
     @GetMapping("/{id}")
