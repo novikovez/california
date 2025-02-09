@@ -12,6 +12,7 @@ public class AnalysisMapper implements RowMapper<Analysis> {
                 rs.getLong("id"),
                 rs.getString("external_id"),
                 rs.getString("sku"),
+                rs.getString("product"),
                 rs.getDouble("price"),
                 rs.getDouble("purchase"),
                 rs.getInt("quantity"),

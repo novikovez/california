@@ -18,6 +18,8 @@ public class Analysis {
     private String externalId;
     @Column(nullable = false, name = "sku")
     private String sku;
+    @Column(nullable = false, name = "product")
+    private String product;
     @Column(nullable = false, name = "price")
     private double price;
     @Column(nullable = false, name = "purchase")
@@ -33,6 +35,7 @@ public class Analysis {
             Long id,
             String externalId,
             String sku,
+            String product,
             double price,
             double purchase,
             int quantity,
@@ -41,6 +44,7 @@ public class Analysis {
         this.id = id;
         this.externalId = externalId;
         this.sku = sku;
+        this.product = product;
         this.price = price;
         this.purchase = purchase;
         this.quantity = quantity;
@@ -55,6 +59,15 @@ public class Analysis {
 
     public Analysis setCompetitor(List<Competitor> competitor) {
         this.competitor = competitor;
+        return this;
+    }
+
+    public String getProduct() {
+        return product;
+    }
+
+    public Analysis setProduct(String product) {
+        this.product = product;
         return this;
     }
 

@@ -27,6 +27,7 @@ public class AnalysisCompetitorsExtractor implements ResultSetExtractor<List<Ana
                             id,
                             rs.getString("external_id"),
                             rs.getString("sku"),
+                            rs.getString("product"),
                             rs.getDouble("price"),
                             rs.getDouble("purchase"),
                             rs.getInt("quantity"),
@@ -48,6 +49,7 @@ public class AnalysisCompetitorsExtractor implements ResultSetExtractor<List<Ana
                         rs.getBoolean("relevant"),
                         rs.getInt("position"),
                         rs.getTimestamp("competitor_created_at").toLocalDateTime(),
+                        rs.getString("product"),
                         analysisId
                 );
                 analysis.getCompetitor().add(competitor);

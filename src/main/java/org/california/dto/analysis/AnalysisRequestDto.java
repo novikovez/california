@@ -10,6 +10,7 @@ public class AnalysisRequestDto {
     private Long id;
     private String externalId;
     private String sku;
+    private String productName;
     private double price;
     private double purchase;
     private int quantity;
@@ -69,5 +70,13 @@ public class AnalysisRequestDto {
 
     public void setSku(String sku) {
         this.sku = sku;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 }

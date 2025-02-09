@@ -1,5 +1,6 @@
 package org.california.entity.competitor;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -23,6 +24,8 @@ public class Competitor {
     @Column(nullable = false)
     private LocalDateTime createdAt;
     @Column(nullable = false)
+    private String productName;
+    @Column(nullable = false)
     private Long analysis_id;
 
     public Competitor(
@@ -33,6 +36,7 @@ public class Competitor {
             boolean relevant,
             int position,
             LocalDateTime createdAt,
+            String product,
             Long analysis_id
     ) {
         this.id = id;
@@ -42,7 +46,21 @@ public class Competitor {
         this.relevant = relevant;
         this.position = position;
         this.createdAt = createdAt;
+        this.productName = product;
         this.analysis_id = analysis_id;
+    }
+
+    public Competitor() {
+    }
+
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public Competitor setProductName(String product) {
+        this.productName = product;
+        return this;
     }
 
     public Long getAnalysisId() {
@@ -52,9 +70,6 @@ public class Competitor {
     public Competitor setAnalysisId(Long analysisId) {
         this.analysis_id = analysisId;
         return this;
-    }
-
-    public Competitor() {
     }
 
     public Long getId() {

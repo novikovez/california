@@ -50,7 +50,8 @@ public class CompetitorServiceImp implements CompetitorService {
                 .setUrl(competitorRequestDto.getUrl())
                 .setPrice(competitorRequestDto.getPrice())
                 .setRelevant(competitorRequestDto.isRelevant())
-                .setPosition(competitorRequestDto.getPosition());
+                .setPosition(competitorRequestDto.getPosition())
+                .setProductName(competitorRequestDto.getProduct());
         return this.competitorDao.update(competitor);
     }
 

@@ -16,6 +16,7 @@ public class CompetitorMapper implements RowMapper<Competitor> {
                 rs.getBoolean("relevant"),
                 rs.getInt("position"),
                 rs.getTimestamp("created_at").toLocalDateTime(),
+                rs.getString("product"),
                 rs.getLong("analysis_id")
         );
     }

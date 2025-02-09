@@ -1,0 +1,2 @@
+ALTER TABLE analysis
+ADD COLUMN product VARCHAR(255) NOT NULL

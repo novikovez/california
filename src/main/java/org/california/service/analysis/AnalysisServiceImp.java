@@ -43,6 +43,7 @@ public class AnalysisServiceImp implements AnalysisService {
                 .setQuantity(analysisRequestDto.getQuantity())
                 .setExternalId(analysisRequestDto.getExternalId())
                 .setSku(analysisRequestDto.getSku())
+                .setProduct(analysisRequestDto.getProductName())
                 .setCompetitor(analysisRequestDto.getCompetitors());
         return this.analysisDao.update(analysis);
     }

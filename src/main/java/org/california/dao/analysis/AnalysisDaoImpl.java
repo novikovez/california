@@ -26,11 +26,12 @@ public class AnalysisDaoImpl implements AnalysisDao {
 
     @Override
     public Analysis create(AnalysisRequestDto analysisRequestDto) throws AnalysisDaoException {
-        String query = "INSERT INTO analysis (external_id, sku, price, purchase, quantity) VALUES (?, ?, ?, ?, ?) RETURNING id";
+        String query = "INSERT INTO analysis (external_id, sku, product, price, purchase, quantity) VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
         Long resultId = jdbcTemplate.queryForObject(
                 query, Long.class,
                 analysisRequestDto.getExternalId(),
                 analysisRequestDto.getSku(),
+                analysisRequestDto.getProductName(),
                 analysisRequestDto.getPrice(),
                 analysisRequestDto.getPurchase(),
                 analysisRequestDto.getQuantity());
@@ -40,7 +41,7 @@ public class AnalysisDaoImpl implements AnalysisDao {
 
         if(analysisRequestDto.getCompetitors() != null && !analysisRequestDto.getCompetitors().isEmpty()) {
             for(Competitor competitor : analysisRequestDto.getCompetitors()) {
-                String queryCompetitors = "INSERT INTO competitors (analysis_id, site, url, price, relevant, position) VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
+                String queryCompetitors = "INSERT INTO competitors (analysis_id, site, url, price, relevant, position, product) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING id";
                 jdbcTemplate.queryForObject(
                         queryCompetitors, Long.class,
                         resultId,
@@ -48,7 +49,8 @@ public class AnalysisDaoImpl implements AnalysisDao {
                         competitor.getUrl(),
                         competitor.getPrice(),
                         competitor.isRelevant(),
-                        competitor.getPosition()
+                        competitor.getPosition(),
+                        competitor.getProductName()
                 );
             }
         }
@@ -78,11 +80,12 @@ public class AnalysisDaoImpl implements AnalysisDao {
     @Override
     @Transactional
     public Optional<Analysis> update(Analysis analysis) throws AnalysisDaoException {
-        String query = "UPDATE analysis SET external_id = ?, sku = ?, price = ?, purchase = ?, quantity = ?, created_at = ?" +
+        String query = "UPDATE analysis SET external_id = ?, product = ?, sku = ?, price = ?, purchase = ?, quantity = ?, created_at = ?" +
                 " WHERE id = ?";
         int result = jdbcTemplate.update(query,
                 analysis.getExternalId(),
                 analysis.getSku(),
+                analysis.getProduct(),
                 analysis.getPrice(),
                 analysis.getPurchase(),
                 analysis.getQuantity(),
@@ -123,6 +126,7 @@ public class AnalysisDaoImpl implements AnalysisDao {
                 "    a.id AS analysis_id, \n" +
                 "    a.external_id, \n" +
                 "    a.sku, \n" +
+                "    a.product, \n" +
                 "    a.price, \n" +
                 "    a.purchase, \n" +
                 "    a.quantity, \n" +

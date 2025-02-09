@@ -13,6 +13,16 @@ public class CompetitorRequestDto {
     private double price;
     private boolean relevant;
     private int position;
+    private String productName;
+
+    public String getProduct() {
+        return productName;
+    }
+
+    public CompetitorRequestDto setProduct(String product) {
+        this.productName = product;
+        return this;
+    }
 
     public Long getId() {
         return id;

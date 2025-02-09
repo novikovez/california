@@ -27,7 +27,7 @@ public class CompetitorDaoImpl implements CompetitorDao {
     @Override
     public Competitor create(CompetitorRequestDto competitorRequestDto) {
         try {
-            String query = "INSERT INTO competitors (analysis_id, site, url, price, relevant, position) VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
+            String query = "INSERT INTO competitors (analysis_id, site, url, price, relevant, position, product) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING id";
             Long resultId = jdbcTemplate.queryForObject(
                     query, Long.class,
                     competitorRequestDto.getAnalysisId(),
@@ -35,7 +35,8 @@ public class CompetitorDaoImpl implements CompetitorDao {
                     competitorRequestDto.getUrl(),
                     competitorRequestDto.getPrice(),
                     competitorRequestDto.isRelevant(),
-                    competitorRequestDto.getPosition()
+                    competitorRequestDto.getPosition(),
+                    competitorRequestDto.getProduct()
             );
             if(resultId == null) {
                 throw new CompetitorDaoException("Не удалось записать конкурента");
@@ -62,7 +63,7 @@ public class CompetitorDaoImpl implements CompetitorDao {
     @Override
     public Optional<Competitor> update(Competitor competitor) {
         String query = "UPDATE competitors SET analysis_id = ?, site = ?, url = ?, price = ?, relevant = ?, position = ?," +
-                "created_at = ? WHERE id = ?";
+                "created_at = ?, product = ? WHERE id = ?";
         int result = jdbcTemplate.update(query,
                 competitor.getAnalysisId(),
                 competitor.getSite(),
@@ -71,6 +72,7 @@ public class CompetitorDaoImpl implements CompetitorDao {
                 competitor.isRelevant(),
                 competitor.getPosition(),
                 LocalDateTime.now(),
+                competitor.getProductName(),
                 competitor.getId()
         );
         if(result > 0) {
