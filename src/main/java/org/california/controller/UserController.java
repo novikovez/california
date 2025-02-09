@@ -1,9 +1,9 @@
 package org.california.controller;
 
-import org.california.config.UserInfoService;
+import org.california.service.user.UserInfoService;
 import org.california.entity.user.UserInfo;
-import org.california.request.AuthRequest;
-import org.california.resource.TokenExpired;
+import org.california.dto.user.AuthRequestDto;
+import org.california.response.user.TokenExpired;
 import org.california.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -49,7 +49,7 @@ public class UserController {
     }
 
     @PostMapping("/generateToken")
-    public TokenExpired authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+    public TokenExpired authenticateAndGetToken(@RequestBody AuthRequestDto authRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequest.getEmail(),
                         authRequest.getPassword())

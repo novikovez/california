@@ -1,6 +1,6 @@
-package org.california.request;
+package org.california.dto.user;
 
-public class AuthRequest {
+public class AuthRequestDto {
     private String email;
     private String password;
 

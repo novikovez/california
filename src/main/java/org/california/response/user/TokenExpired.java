@@ -1,4 +1,4 @@
-package org.california.resource;
+package org.california.response.user;
 
 import java.util.Date;
 

@@ -1,7 +1,8 @@
-package org.california.config;
+package org.california.service.user;
 
+import org.california.config.UserInfoDetails;
 import org.california.entity.user.UserInfo;
-import org.california.repository.UserRepository;
+import org.california.dao.user.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,7 +16,7 @@ import java.util.Optional;
 public class UserInfoService implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserDao userRepository;
 
     @Autowired
     private PasswordEncoder encoder;
