@@ -1,0 +1,22 @@
+services:
+  california:
+    build:
+      context: .
+      dockerfile: dockerfiles/java/Dockerfile
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.california.rule=Host(`california.local`)
+      - traefik.http.routers.california.entrypoints=https
+      - traefik.http.routers.california.tls=true
+      - traefik.http.routers.california.service=california
+      - traefik.http.services.california.loadbalancer.server.port=${DOMAIN_PORT}
+    environment:
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+    networks:
+      - traefik-shared
+
+
+networks:
+  traefik-shared:
+    name: traefik-shared
+    external: true
