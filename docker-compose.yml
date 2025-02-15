@@ -12,6 +12,10 @@ services:
       - traefik.http.services.california.loadbalancer.server.port=${DOMAIN_PORT}
     environment:
       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+      - DB_HOST=${DB_HOST}
+      - DB_BASE=${DB_BASE}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
     networks:
       - traefik-shared
 

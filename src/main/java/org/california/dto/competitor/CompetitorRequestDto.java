@@ -2,6 +2,7 @@ package org.california.dto.competitor;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.california.entity.competitor.Competitor;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CompetitorRequestDto {
@@ -15,22 +16,30 @@ public class CompetitorRequestDto {
     private int position;
     private String productName;
 
-    public String getProduct() {
-        return productName;
-    }
 
     public CompetitorRequestDto setProduct(String product) {
         this.productName = product;
         return this;
     }
 
+    public CompetitorRequestDto setId(Long id) {
+        this.id = id;
+        return this;
+    }
+
+    public CompetitorRequestDto setAnalysis_id(Long analysis_id) {
+        this.analysis_id = analysis_id;
+        return this;
+    }
+
+    public String getProduct() {
+        return productName;
+    }
+
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getAnalysisId() {
         return analysis_id;
@@ -45,39 +54,44 @@ public class CompetitorRequestDto {
         return site;
     }
 
-    public void setSite(String site) {
+    public CompetitorRequestDto setSite(String site) {
         this.site = site;
+        return this;
     }
 
     public String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
+    public CompetitorRequestDto setUrl(String url) {
         this.url = url;
+        return this;
     }
 
     public double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public CompetitorRequestDto setPrice(double price) {
         this.price = price;
+        return this;
     }
 
     public boolean isRelevant() {
         return relevant;
     }
 
-    public void setRelevant(boolean relevant) {
+    public CompetitorRequestDto setRelevant(boolean relevant) {
         this.relevant = relevant;
+        return this;
     }
 
     public int getPosition() {
         return position;
     }
 
-    public void setPosition(int position) {
+    public CompetitorRequestDto setPosition(int position) {
         this.position = position;
+        return this;
     }
 }

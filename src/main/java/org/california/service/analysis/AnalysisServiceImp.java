@@ -3,9 +3,12 @@ package org.california.service.analysis;
 import org.california.dao.analysis.AnalysisDao;
 import org.california.dto.analysis.AnalysisRequestDto;
 import org.california.entity.analysis.Analysis;
+import org.california.entity.competitor.Competitor;
 import org.california.exception.analysis.AnalysisDaoException;
+import org.california.service.util.UrlCleaner;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +23,12 @@ public class AnalysisServiceImp implements AnalysisService {
 
     @Override
     public Analysis create(AnalysisRequestDto analysisRequestDto) {
+        List<Competitor> competitors = new ArrayList<>();
+        for (Competitor competitor : analysisRequestDto.getCompetitors()) {
+            competitor.setUrl(UrlCleaner.cleanUrl(competitor.getUrl()));
+            competitors.add(competitor);
+        }
+        analysisRequestDto.setCompetitors(competitors);
         return this.analysisDao.create(analysisRequestDto);
     }
 

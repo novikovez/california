@@ -2,11 +2,13 @@ package org.california.controller.analysis;
 
 import org.california.dto.analysis.AnalysisRequestDto;
 import org.california.entity.analysis.Analysis;
+import org.california.entity.competitor.Competitor;
 import org.california.exception.analysis.AnalysisDaoException;
 import org.california.response.analysis.*;
 import org.california.service.analysis.AnalysisService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +32,7 @@ public class AnalysisController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority(T(org.california.enums.UserRole).ROLE_ADMIN.name())")
     public ResponseEntity<AnalysisShowResponse> show(@PathVariable("id") Long id) {
         Optional<Analysis> result = this.analysisService.show(id);
         if(result.isPresent()) {
@@ -40,6 +43,7 @@ public class AnalysisController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority(T(org.california.enums.UserRole).ROLE_ADMIN.name())")
     public ResponseEntity<AnalysisIndexResponse> index() {
         List<Analysis> result = this.analysisService.index();
         if(result.isEmpty()) {
@@ -49,6 +53,7 @@ public class AnalysisController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority(T(org.california.enums.UserRole).ROLE_ADMIN.name())")
     public ResponseEntity<AnalysisUpdateResponse> update(@PathVariable("id") Long id, @RequestBody AnalysisRequestDto analysisRequestDto) {
         Analysis analysis = this.analysisService.show(id).orElse(null);
         if(analysis == null) {
@@ -68,10 +73,12 @@ public class AnalysisController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority(T(org.california.enums.UserRole).ROLE_ADMIN.name())")
     public ResponseEntity<AnalysisDeleteResponse> delete(@PathVariable("id") Long id) {
         if(this.analysisService.delete(id)) {
             return ResponseEntity.status(HttpStatus.OK).body(AnalysisDeleteResponse.of(true));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(AnalysisDeleteResponse.of(false));
     }
+
 }
